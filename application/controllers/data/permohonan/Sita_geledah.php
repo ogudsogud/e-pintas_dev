@@ -29,55 +29,152 @@ class Sita_geledah extends CI_Controller
         echo json_encode($data);
     }
 
+
+
     public function status()
     {
-        $config['base_url'] = site_url('data/permohonan/sita_geledah/status'); //site url
-        $config['total_rows'] = $this->db->count_all('tbl_permohonan'); //total row
-        $config['per_page'] = 5;  //show record per halaman
-        $config['uri_segment'] = 5;  // uri parameter
-        $choice = $config["total_rows"] / $config["per_page"];
-        $config["num_links"] = floor($choice);
+        $dari      = $this->uri->segment('5');
+        $sampai = 10;
+        $like      = '';
 
-        // Membuat Style pagination untuk BootStrap v4
-      $config['first_link']       = 'First';
-      $config['last_link']        = 'Last';
-      $config['next_link']        = 'Next';
-      $config['prev_link']        = 'Prev';
-      $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
-      $config['full_tag_close']   = '</ul></nav></div>';
-      $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
-      $config['num_tag_close']    = '</span></li>';
-      $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
-      $config['cur_tag_close']    = '<span class="sr-only"></span></span></li>';
-      $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
-      $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
-      $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
-      $config['prev_tagl_close']  = '</span>Next</li>';
-      $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
-      $config['first_tagl_close'] = '</span></li>';
-      $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
-      $config['last_tagl_close']  = '</span></li>';
+        //hitung jumlah row
+        $jumlah= $this->sita_geledah_model->jumlah();
 
-      $this->pagination->initialize($config);
-      $data['page'] = ($this->uri->segment(4)) ? $this->uri->segment(3) : 0;
+        //inisialisasi array
+        $config = array();
 
-      //panggil function get_mahasiswa_list yang ada pada mmodel mahasiswa_model. 
-      $data['status'] = $this->sita_geledah_model->status($config['per_page'], $data['page']);           
+        //set base_url untuk setiap link page
+        $config['base_url'] = base_url().'data/permohonan/sita_geledah/status';
 
-      $data['pagination'] = $this->pagination->create_links();
+        //hitung jumlah row
+       $config['total_rows'] = $jumlah;
 
+       //mengatur total data yang tampil per page
+       $config['per_page'] = $sampai;
 
-        // $data['status'] = $this->sita_geledah_model->status();
-        $this->load->view('list/permohonan/sita_geledah',$data);
+       //mengatur jumlah nomor page yang tampil
+       $config['num_links'] = $jumlah;
+
+         // integrate bootstrap pagination
+         $config['full_tag_open'] = '<ul class="pagination">';
+         $config['full_tag_close'] = '</ul>';
+         $config['first_link'] = false;
+         $config['last_link'] = false;
+         $config['first_tag_open'] = '<li>';
+         $config['first_tag_close'] = '</li>';
+         $config['prev_link'] = 'Prev';
+         $config['prev_tag_open'] = '<li class="prev">';
+         $config['prev_tag_close'] = '</li>';
+         $config['next_link'] = 'Next';
+         $config['next_tag_open'] = '<li>';
+         $config['next_tag_close'] = '</li>';
+         $config['last_tag_open'] = '<li>';
+         $config['last_tag_close'] = '</li>';
+         $config['cur_tag_open'] = '<li class="active"><a href="#">';
+         $config['cur_tag_close'] = '</a></li>';
+         $config['num_tag_open'] = '<li>';
+         $config['num_tag_close'] = '</li>';
+         $this->pagination->initialize($config);
+
+       //inisialisasi array
+        $data = array();
+
+        //ambil data buku dari database
+       $data['status'] = $this->sita_geledah_model->status($sampai, $dari, $like);
+
+       //Membuat link
+       $str_links = $this->pagination->create_links();
+       $data["links"] = explode('&nbsp;',$str_links );
+    //    $data['title'] = 'Tutorial Pagination CodeIgniter | https://recodeku.blogspot.com';
+
+    // Load view
+    $this->load->view('list/permohonan/sita_geledah',$data);
+        
     }
 
 
-    public function find_status()
-    {
-        $keyword = $this->input->get('keyword');
-        $data['status'] = $this->sita_geledah_model->cari_status($keyword);
+    public function cari()
+       {
+
+            //mengambil nilai keyword dari form pencarian
+     $search = (trim($this->input->post('key',true)))? trim($this->input->post('key',true)) : '';
+
+     //jika uri segmen 3 ada, maka nilai variabel $search akan diganti dengan nilai uri segmen 3
+     $search = ($this->uri->segment(5)) ? $this->uri->segment(5) : $search;
+
+     //mengambil nilari segmen 4 sebagai offset
+            $dari      = $this->uri->segment('4');
+
+            //limit data yang ditampilkan
+            $sampai = 5;
+
+            //inisialisasi variabel $like
+            $like      = '';
+
+            //mengisi nilai variabel $like dengan variabel $search, digunakan sebagai kondisi untuk menampilkan data
+            if($search) $like = "(no_surat LIKE '%$search%')";
+
+            //hitung jumlah row
+            $jumlah= $this->sita_geledah_model->jumlah($like);
+
+            //inisialisasi array
+            $config = array();
+
+            //set base_url untuk setiap link page
+            $config['base_url'] = base_url().'data/permohonan/sita_geledah/cari/'.$search;
+
+            //hitung jumlah row
+           $config['total_rows'] = $jumlah;
+
+           //mengatur total data yang tampil per page
+           $config['per_page'] = $sampai;
+
+           //mengatur jumlah nomor page yang tampil
+           $config['num_links'] = $jumlah;
+
+            // integrate bootstrap pagination
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+        $config['first_link'] = false;
+        $config['last_link'] = false;
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['prev_link'] = 'Prev';
+        $config['prev_tag_open'] = '<li class="prev">';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'Next';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $this->pagination->initialize($config);
+
+
+           //inisialisasi array
+            $data = array();
+
+            //ambil data buku dari database
+           $data['status'] = $this->sita_geledah_model->status($sampai, $dari, $like);
+
+           //Membuat link
+           $str_links = $this->pagination->create_links();
+           $data["links"] = explode('&nbsp;',$str_links );
+        //    $data['title'] = 'Tutorial Searching with Pagination CodeIgniter | https://recodeku.blogspot.com';
+
         $this->load->view('list/permohonan/sita_geledah',$data);
-    }
+      }  
+    
+
+    // public function find_status()
+    // {
+    //     $keyword = $this->input->get('keyword');
+    //     $data['status'] = $this->sita_geledah_model->cari_status($keyword);
+    //     $this->load->view('list/permohonan/sita_geledah',$data);
+    // }
 
     public function ceklist_ptsp()
     {
