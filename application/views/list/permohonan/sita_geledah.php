@@ -41,13 +41,15 @@
           <div class="widget-content padding" style="overflow-x:auto;">
           <div class="gp_btn">
                       <ul>
-                           <li>
+                           <!-- <li> -->
                                 <?php echo form_open('data/permohonan/sita_geledah/cari');?>
-                                     <input type="text" name="key" placeholder="Search..." size="50" required>
-                                     <input type="submit" name="search" value="Search">
+                                     <input type="text" name="key" placeholder="Cari No Surat..." size="50" required>
+                                     <input type="submit" name="search" value="Cari">
                                 <?php echo form_close();?>
-                           </li>
-                           <li><a class="btn2" href="<?php echo base_url(); ?>data/permohonan/sita_geledah/status">Reload</a></li>
+                           <!-- </li> -->
+                           <!-- <li> -->
+                           <a class="btn btn-primary" href="<?php echo base_url(); ?>data/permohonan/sita_geledah/status">Reload</a>
+                           <!-- </li> -->
                       </ul>
                  </div>
           <br/>
@@ -118,11 +120,6 @@
                               <?php } ?>
 
                         </td>
-                        <td>
-                            <?php 
-                            // echo $row->jml_berkas
-                            ?>
-                        </td>
 
                         <td>
                             <?php if ($row['id_status'] == 4) { ?>
@@ -167,10 +164,12 @@
                                 <?php } ?>
                         </td>
                         <td>
-                        <?php if ($row['id_status'] == 8) { ?>
+                        <?php if ($row['id_status'] < 4) { ?>
                           <a class="btn btn-info" href="<?php echo base_url('data/permohonan/upload_berkas/form_upload/'.$row['id_permohonan']);?>" type="button" class="btn btn-xs btn-info" >Upload</a></button>
-                          <?php } elseif ($row['id_status'] == 3 
-                          // || $row->id_status >= 4 && $row->jml_berkas == 7
+                          <?php } elseif (
+                            // $row['id_status'] == 3 ||
+                           $row['id_status'] = 4 
+                          // && $row->jml_berkas == 7
                           ) { ?>
                             <a class="btn btn-disabled" type="button" disabled >Upload</a>
                           <?php } ?>
@@ -215,9 +214,9 @@
                   
             </table>
             <div id="pagination">
-                 <ul class="gp_pagination">
+                 <ul class="pagination">
                       <?php foreach ($links as $link) {
-                           echo "<li>". $link."</li>";
+                           echo "<li class>". $link."</li>";
                       } ?>
                  </ul>
             </div>
