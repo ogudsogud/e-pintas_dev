@@ -43,13 +43,10 @@
                       <ul>
                            <!-- <li> -->
                                 <?php echo form_open('data/permohonan/sita_geledah/cari');?>
-                                     <input type="text" name="key" placeholder="Cari No Surat..." size="50" required>
-                                     <input type="submit" name="search" value="Cari">
+                                     <input type="text" name="key" placeholder="Cari Nomor Surat" size="50" required>
+                                     <button type="submit" name="search" class="btn btn-warning" ><i class="icon icon-search"></i> Cari</button>
                                 <?php echo form_close();?>
-                           <!-- </li> -->
-                           <!-- <li> -->
-                           <a class="btn btn-primary" href="<?php echo base_url(); ?>data/permohonan/sita_geledah/status">Reload</a>
-                           <!-- </li> -->
+                                <a class="btn btn-success" href="<?php echo base_url(); ?>data/permohonan/sita_geledah/status"><i class="icon-refresh"></i> Reload</a>
                       </ul>
                  </div>
           <br/>
@@ -216,7 +213,7 @@
             <div id="pagination">
                  <ul class="pagination">
                       <?php foreach ($links as $link) {
-                           echo "<li class>". $link."</li>";
+                           echo "<ul class>".$link."</ul>";
                       } ?>
                  </ul>
             </div>

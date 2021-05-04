@@ -99,14 +99,14 @@ class Sita_geledah extends CI_Controller
             //mengambil nilai keyword dari form pencarian
      $search = (trim($this->input->post('key',true)))? trim($this->input->post('key',true)) : '';
 
-     //jika uri segmen 3 ada, maka nilai variabel $search akan diganti dengan nilai uri segmen 3
+     //jika uri segmen 5 ada, maka nilai variabel $search akan diganti dengan nilai uri segmen 5
      $search = ($this->uri->segment(5)) ? $this->uri->segment(5) : $search;
 
      //mengambil nilari segmen 4 sebagai offset
             $dari      = $this->uri->segment('4');
 
             //limit data yang ditampilkan
-            $sampai = 5;
+            $sampai = 10;
 
             //inisialisasi variabel $like
             $like      = '';
@@ -157,13 +157,12 @@ class Sita_geledah extends CI_Controller
            //inisialisasi array
             $data = array();
 
-            //ambil data buku dari database
+            //ambil data dari database
            $data['status'] = $this->sita_geledah_model->status($sampai, $dari, $like);
 
            //Membuat link
            $str_links = $this->pagination->create_links();
-           $data["links"] = explode('&nbsp;',$str_links );
-        //    $data['title'] = 'Tutorial Searching with Pagination CodeIgniter | https://recodeku.blogspot.com';
+           $data["links"] = explode('&nbsp;', $str_links );
 
         $this->load->view('list/permohonan/sita_geledah',$data);
       }  

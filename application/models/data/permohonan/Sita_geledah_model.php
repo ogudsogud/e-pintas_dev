@@ -66,19 +66,20 @@ class Sita_geledah_model extends CI_Model
         return $hasil;
     }
 
-    function cek_no_surat($no_surat,$id_klas)
-    {
-        $query = $this->db->query("SELECT * FROM tbl_permohonan where no_surat = '$no_surat' AND id_klas = '$id_klas'");
-        return $query;
-    }
+    // function cek_no_surat($no_surat,$id_klas)
+    // {
+    //     $query = $this->db->query("SELECT * FROM tbl_permohonan where no_surat = '$no_surat' AND id_klas = '$id_klas'");
+    //     return $query;
+    // }
 
     function status($sampai, $dari, $like = '')
     {
         
         if($like)
         $this->db->where($like);
-    
-       $query = $this->db->get('tbl_permohonan',$sampai,$dari);
+        $this->db->order_by('id_permohonan','desc');
+        $query = $this->db->get('tbl_permohonan',$sampai,$dari);
+                
        return $query->result_array();
       }
     
@@ -88,7 +89,7 @@ class Sita_geledah_model extends CI_Model
     
        if($like)
         $this->db->where($like);
-    
+        $this->db->order_by('id_permohonan','desc');
        $query = $this->db->get('tbl_permohonan');
        return $query->num_rows();
       }

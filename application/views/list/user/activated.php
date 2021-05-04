@@ -29,7 +29,7 @@
     <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
-          <div class="widget-content nopadding">
+          <div class="widget-content padding">
             <table class="table table-bordered table-striped">
             <?php $cek=$this->db->query("SELECT * from tbl_user WHERE id_status = 2")->num_rows(); ?>
                 <?php if($cek>=1) { ?>
