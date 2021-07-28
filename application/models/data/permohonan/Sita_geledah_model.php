@@ -11,8 +11,10 @@ class Sita_geledah_model extends CI_Model
         return $hasil;
     }
 
+
     function cmbSatker()
     {
+        $this->db->where('id_satker <= 6');
         $this->db->order_by('nama_satker', 'ASC');
         return $this->db->from('mtr_satker')
           ->get()
@@ -21,7 +23,7 @@ class Sita_geledah_model extends CI_Model
 
     function cmbUser($id_satker)
     {
-        $this->db->where('id_satker', $id_satker);
+        $this->db->where('id_satker', $id_satker );
         $this->db->order_by('nama', 'ASC');
         return $this->db->from('tbl_user')
             ->get()
@@ -66,11 +68,11 @@ class Sita_geledah_model extends CI_Model
         return $hasil;
     }
 
-    // function cek_no_surat($no_surat,$id_klas)
-    // {
-    //     $query = $this->db->query("SELECT * FROM tbl_permohonan where no_surat = '$no_surat' AND id_klas = '$id_klas'");
-    //     return $query;
-    // }
+    function cek_no_surat($no_surat,$id_klas)
+    {
+        $query = $this->db->query("SELECT * FROM tbl_permohonan where no_surat = '$no_surat' AND id_klas = '$id_klas'");
+        return $query;
+    }
 
     function status($sampai, $dari, $like = '')
     {

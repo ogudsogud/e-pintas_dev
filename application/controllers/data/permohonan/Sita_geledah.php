@@ -218,14 +218,13 @@ class Sita_geledah extends CI_Controller
         if ($cek == 1 ) {
 
 
-            $this->session->set_flashdata('msg', 
+            $this->session->set_flashdata('msg_cek_surat', 
             '<div class="alert alert-warning">
                 <h4>Gagal!</h4>
                 <p>Nomor Surat Sudah ada</p>
             </div>');    
             redirect('data/permohonan/sita_geledah');
-
-            
+         
     
         } else {
 
@@ -239,12 +238,12 @@ class Sita_geledah extends CI_Controller
                 $prioritas);
             
     
-            $this->session->set_flashdata('msg', 
+            $this->session->set_flashdata('msg_cek_surat', 
                 '<div class="alert alert-success">
                     <h4>Berhasil</h4>
                     <p>Mengajukan Permohonan</p>
                 </div>');    
-                redirect('data/permohonan/sita_geledah/status');
+                redirect('data/permohonan/sita_geledah');
 
         }
     }

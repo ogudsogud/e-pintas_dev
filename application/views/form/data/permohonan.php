@@ -24,12 +24,14 @@
     <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Permohonan</a> <a href="#" class="current">Penyitaan dan Penggeledahan</a> </div>
     <h1>Form Permohonan</h1>
   </div>
+  
   <div class="container-fluid" >
+  <div id="notifications"><?php echo $this->session->flashdata('msg_cek_surat'); ?></div>
     <div class="row-fluid" style="text-align:center">
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-          <div id="notifications"><?php echo $this->session->flashdata('msg_apr_atasan'); ?></div>
+          
             <!-- <h5>Personal-info</h5> -->
           </div>
           <div class="widget-content nopadding">
