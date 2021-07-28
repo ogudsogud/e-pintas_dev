@@ -30,6 +30,7 @@ class Registration_model extends CI_Model
             ->get()
             ->result();
     }
+
     
     public function simpan( 
         $id_satker,

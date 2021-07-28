@@ -44,7 +44,7 @@ class Registration extends CI_Controller
                     $id_user_level
                 );
             
-
+                
             $this->session->set_flashdata('msg', 
                 '<div id="myModal2" class="modal hide">
                 <div class="modal-header">

@@ -52,8 +52,13 @@
                         <br>
                         <div class="main_input_box">
                           <select name="id_user_level" style="width:300px;height:30px;" required>
-                            <option value="" disabled selected>Pilih</option>
-                            <option value="1">Permohonan Aktivasi</option>
+                            <option value="" disabled selected>Pilih User</option>
+                            <option value="6">Pemohon</option>
+                            <option value="2">WKPN</option>
+                            <option value="3">Panitera</option>
+                            <option value="4">Panmud</option>
+                            <option value="5">PTSP</option>
+
 
                           </select>
                         </div>
